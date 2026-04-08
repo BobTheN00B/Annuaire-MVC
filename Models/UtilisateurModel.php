@@ -9,11 +9,11 @@ require_once __DIR__ . '/../core/Model.php';
  * @version 1.0.0
  * 
  */
-class CategoryModel extends Model {
+class UtilisateurModel extends Model {
 
     public function __construct() {
         parent::__construct();
-        $this->_table = "Categorie";
+        $this->_table = "Utilisateur";
     }
 
     /*
@@ -23,10 +23,12 @@ class CategoryModel extends Model {
       return $this->pdo->query($sql);
       } */
 
-    public function insert(string $unLlibelle) {
+    public function insert(string $unMail, string $unMDP, JSON $unParams) {
         $sth = $this->_pdo->prepare("insert into " . $this->_table .
-                " (libelle) values(:libelle)");
-        $sth->bindParam(':libelle', $unLlibelle, PDO::PARAM_STR);
+                " (mail) values(:mail), (mdp) values(:mdp), (params) values(:params)");
+        $sth->bindParam(':mail', $unMail, PDO::PARAM_STR);
+        $sth->bindParam(':mdp', $unMDP, PDO::PARAM_STR);
+        $sth->bindParam(':params', $unParams, PDO::PARAM_STR);
         //  $this->_pdo->debugDumpParams();
         return $sth->execute();
     }
@@ -45,11 +47,17 @@ class CategoryModel extends Model {
      * @param string $unLibelle
      * @return int
      */
-    public function update(int $unId, string $unLibelle) {
+    public function update(int $unId, string $unMail, string $unMDP, JSON $unParams) {
         $sth = $this->_pdo->prepare("update " . $this->_table .
-                " SET libelle=:libelle where id = :id");
+                " SET mail=:mail where id = :id");
+                $this->_pdo->prepare("update " . $this->_table .
+                " SET mdp=:mdp where id = :id");
+                $this->_pdo->prepare("update " . $this->_table .
+                " SET params=params where id = :id");
         $sth->bindParam(':id', $unId, PDO::PARAM_INT);
-        $sth->bindParam(':libelle', $unLibelle, PDO::PARAM_STR);
+        $sth->bindParam(':mail', $unMail, PDO::PARAM_STR);
+        $sth->bindParam(':mdp', $unMDP, PDO::PARAM_STR);
+        $sth->bindParam(':params', $unParams, PDO::PARAM_STR);
         
       // $sth->debugDumpParams();die;
         return $sth->execute();
