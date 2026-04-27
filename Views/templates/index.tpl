@@ -12,7 +12,15 @@
         <div class="container">
             <h1>{$vue["titre"]}</h1>
             {include file={$tpl}}
-         
+            <a class="navbar-brand" href="index.php">Annuaire</a>
+                <div class="navbar-nav gap-2">
+                    <a class="nav-link" href="index.php">Accueil</a>
+                    <a class="nav-link" href="index.php?page=categorie&action=list">Catégories</a>
+                    <a class="nav-link" href="index.php?page=site&action=list">Mes sites</a>
+                    <a class="nav-link" href="index.php?page=utilisateur&action=login">Connexion</a>
+                    <a class="nav-link" href="index.php?page=utilisateur&action=register">Inscription</a>
+                    <a class="nav-link" href="index.php?page=utilisateur&action=logout">Déconnexion</a>
+                </div>
         </div>
     </body>
 </html>

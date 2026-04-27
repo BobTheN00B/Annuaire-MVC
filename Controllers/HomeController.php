@@ -2,6 +2,10 @@
 /**
  * Class d'un controlleur très simple.
  */
+
+require_once __DIR__ . '/../Models/CategoryModel.php';
+require_once __DIR__ . '/../Models/SiteModel.php';
+
 class HomeController {
 
     /**
