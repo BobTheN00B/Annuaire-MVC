@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.1.0, created on 2026-04-27 17:18:39
+/* Smarty version 4.1.0, created on 2026-04-27 19:10:56
   from 'C:\Users\Andrian\Desktop\Annuaire-MVC\Views\templates\index.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.1.0',
-  'unifunc' => 'content_69ef9a6f9efc38_61520683',
+  'unifunc' => 'content_69efb4c00500f6_13008860',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '2012697327825049f0d227966eee03a0964d6db5' => 
     array (
       0 => 'C:\\Users\\Andrian\\Desktop\\Annuaire-MVC\\Views\\templates\\index.tpl',
-      1 => 1777310309,
+      1 => 1777317047,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_69ef9a6f9efc38_61520683 (Smarty_Internal_Template $_smarty_tpl) {
+function content_69efb4c00500f6_13008860 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!-- Template de base avec le moteur de template Smarty -->
 <!DOCTYPE html>
 <html>
@@ -33,6 +33,7 @@ function content_69ef9a6f9efc38_61520683 (Smarty_Internal_Template $_smarty_tpl)
         <?php echo '<script'; ?>
  src="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-ka7Sk0Gln4gmtz2MlQnikT1wXgYsOg+OMhuP+IlRH9sENBO0LRn5q+8nbTov4+1p" crossorigin="anonymous"><?php echo '</script'; ?>
 >
+        <link href="style.css" rel="stylesheet">
     </head>
     <body>      
         <div class="container">

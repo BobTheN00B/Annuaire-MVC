@@ -1,0 +1,35 @@
+:root {
+    --beige: #FCF5E4;
+    --jaune: #EDB217;
+    --noir: #212121;
+    --rouge: #F4143F;
+}
+
+body {
+    background: var(--beige);
+    color: var(--noir);
+}
+
+.navbar-custom {
+    background: var(--noir);
+}
+
+.navbar-custom .nav-link,
+.navbar-custom .navbar-brand {
+    color: #fff !important;
+}
+
+.btn-primary {
+    background: var(--jaune);
+    border-color: var(--jaune);
+    color: var(--noir);
+}
+
+.btn-danger {
+    background: var(--rouge);
+    border-color: var(--rouge);
+}
+
+.card {
+    border: 1px solid var(--jaune);
+}
