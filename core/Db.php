@@ -15,7 +15,8 @@ class Db {
      * @example Db::getInstance()->getPdo();
      */
     private function __construct(){  
-         $this->_pdo = new PDO("mysql:dbname=annuaire;host=192.168.56.10", "etudiant", "etudiant");
+         #$this->_pdo = new PDO("mysql:dbname=annuaire;host=192.168.56.10", "etudiant", "etudiant");
+         $this->_pdo = new PDO("mysql:dbname=annuaire;host=192.168.56.10", "bobthenoob", "Omgimdeadlol.8112");
     }
     /**
      * 
