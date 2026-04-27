@@ -1,5 +1,6 @@
 <?php
 
+declare(strict_types=1);
 require_once __DIR__ . '/Db.php';
 
 /**
@@ -7,10 +8,10 @@ require_once __DIR__ . '/Db.php';
  *
  * @author Kevin
  */
-class Model {
-
-    protected $_pdo;
-    protected $_table;
+class Model
+{
+    protected PDO $_pdo;
+    protected string $_table;
 
     /**
      * Instancie l'attribut PDO depuis mon Singleton
@@ -29,4 +30,9 @@ class Model {
         return $this->_pdo->query($sql);
     }
 
+    public function deleteById(int $id): bool
+    {
+        $sth = $this->_pdo->prepare('DELETE FROM ' . $this->_table . ' WHERE id = :id');
+        return $sth->execute([':id' => $id]);
+    }
 }

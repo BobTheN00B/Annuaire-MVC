@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 require_once __DIR__ . '/../core/Model.php';
 
 /**
@@ -9,66 +11,45 @@ require_once __DIR__ . '/../core/Model.php';
  * @version 1.0.0
  * 
  */
-class UtilisateurModel extends Model {
-
-    public function __construct() {
+class UtilisateurModel extends Model
+{
+    public function __construct()
+    {
         parent::__construct();
-        $this->_table = "Utilisateur";
+        $this->_table = 'Utilisateur';
     }
 
-    /*
-      avant de factoriser mon code avec l'héritage
-      public function list(){
-      $sql = "select * from ".$this->table;
-      return $this->pdo->query($sql);
-      } */
-
-    public function insert(string $unMail, string $unMDP, JSON $unParams) {
-        $sth = $this->_pdo->prepare("insert into " . $this->_table .
-                " (mail) values(:mail), (mdp) values(:mdp), (params) values(:params)");
-        $sth->bindParam(':mail', $unMail, PDO::PARAM_STR);
-        $sth->bindParam(':mdp', $unMDP, PDO::PARAM_STR);
-        $sth->bindParam(':params', $unParams, PDO::PARAM_STR);
-        //  $this->_pdo->debugDumpParams();
-        return $sth->execute();
+    public function findByMail(string $mail): ?array
+    {
+        $sth = $this->_pdo->prepare('SELECT * FROM ' . $this->_table . ' WHERE mail = :mail LIMIT 1');
+        $sth->execute([':mail' => $mail]);
+        $user = $sth->fetch(PDO::FETCH_ASSOC);
+        return $user ?: null;
     }
 
-    public function delete(int $unId) {
-        $sth = $this->_pdo->prepare("delete from " . $this->_table .
-                " where id = :id");
-        $sth->bindParam(':id', $unId, PDO::PARAM_INT);
-        //  $this->_pdo->debugDumpParams();
-        return $sth->execute();
+    public function create(string $mail, string $plainPassword): bool
+    {
+        $passwordHash = password_hash($plainPassword, PASSWORD_DEFAULT);
+        $sth = $this->_pdo->prepare('INSERT INTO ' . $this->_table . ' (mail, mdp, params) VALUES (:mail, :mdp, :params)');
+        return $sth->execute([
+            ':mail' => $mail,
+            ':mdp' => $passwordHash,
+            ':params' => json_encode(['role' => 'user'], JSON_UNESCAPED_UNICODE),
+        ]);
     }
 
-    /**
-     * Mise a jour de la catégorie
-     * @param int $unId
-     * @param string $unLibelle
-     * @return int
-     */
-    public function update(int $unId, string $unMail, string $unMDP, JSON $unParams) {
-        $sth = $this->_pdo->prepare("update " . $this->_table .
-                " SET mail=:mail where id = :id");
-                $this->_pdo->prepare("update " . $this->_table .
-                " SET mdp=:mdp where id = :id");
-                $this->_pdo->prepare("update " . $this->_table .
-                " SET params=params where id = :id");
-        $sth->bindParam(':id', $unId, PDO::PARAM_INT);
-        $sth->bindParam(':mail', $unMail, PDO::PARAM_STR);
-        $sth->bindParam(':mdp', $unMDP, PDO::PARAM_STR);
-        $sth->bindParam(':params', $unParams, PDO::PARAM_STR);
-        
-      // $sth->debugDumpParams();die;
-        return $sth->execute();
-    }
+    public function verifyLogin(string $mail, string $plainPassword): ?array
+    {
+        $user = $this->findByMail($mail);
+        if ($user === null) {
+            return null;
+        }
 
-    public function selectById(int $unId) {
-        $sth = $this->_pdo->prepare("select * from " . $this->_table .
-                " where id = :id");
-        $sth->bindParam(':id', $unId, PDO::PARAM_INT);
-        $sth->execute();
-        return $sth->fetchAll();
-    }
+        $hash = (string) ($user['mdp'] ?? '');
+        if ($hash !== '' && password_verify($plainPassword, $hash)) {
+            return $user;
+        }
 
+        return null;
+    }
 }
