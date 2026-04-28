@@ -1,3 +1,7 @@
+{if $vue.errorMessage}
+    <div class="alert alert-warning" role="alert">{$vue.errorMessage|escape}</div>
+{/if}
+
 <p>{$vue.description|escape}</p>
 
 <form method="get" action="index.php" class="row g-2 mb-4">

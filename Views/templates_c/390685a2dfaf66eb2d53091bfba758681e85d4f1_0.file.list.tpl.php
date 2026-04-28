@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.1.0, created on 2026-04-27 20:21:24
+/* Smarty version 4.1.0, created on 2026-04-28 12:48:08
   from 'C:\Users\Andrian\Desktop\Annuaire-MVC\Views\templates\Accueil\list.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.1.0',
-  'unifunc' => 'content_69efc54497f0c2_73078732',
+  'unifunc' => 'content_69f0ac887adf31_70688264',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '390685a2dfaf66eb2d53091bfba758681e85d4f1' => 
     array (
       0 => 'C:\\Users\\Andrian\\Desktop\\Annuaire-MVC\\Views\\templates\\Accueil\\list.tpl',
-      1 => 1777318696,
+      1 => 1777380422,
       2 => 'file',
     ),
   ),
@@ -20,8 +20,13 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_69efc54497f0c2_73078732 (Smarty_Internal_Template $_smarty_tpl) {
-?><p><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['vue']->value['description'], ENT_QUOTES, 'ISO-8859-1', true);?>
+function content_69f0ac887adf31_70688264 (Smarty_Internal_Template $_smarty_tpl) {
+if ($_smarty_tpl->tpl_vars['vue']->value['errorMessage']) {?>
+    <div class="alert alert-warning" role="alert"><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['vue']->value['errorMessage'], ENT_QUOTES, 'ISO-8859-1', true);?>
+</div>
+<?php }?>
+
+<p><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['vue']->value['description'], ENT_QUOTES, 'ISO-8859-1', true);?>
 </p>
 
 <form method="get" action="index.php" class="row g-2 mb-4">
@@ -54,38 +59,43 @@ $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
     </div>
 </form>
 
-<table class="table table-striped">
-    <thead>
-        <tr><th>Titre</th><th>URL</th><th>Catégorie</th><th>Description</th></tr>
-    </thead>
-    <tbody>
-    <?php
+<p><strong><?php echo $_smarty_tpl->tpl_vars['vue']->value['resultCount'];?>
+</strong> résultat(s) trouvé(s).</p>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Titre</th><th>URL</th><th>Catégorie</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        <?php
 $_from = $_smarty_tpl->smarty->ext->_foreach->init($_smarty_tpl, $_smarty_tpl->tpl_vars['vue']->value['sites'], 'site');
 $_smarty_tpl->tpl_vars['site']->do_else = true;
 if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['site']->value) {
 $_smarty_tpl->tpl_vars['site']->do_else = false;
 ?>
-        <tr>
-            <td><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['site']->value['titre'], ENT_QUOTES, 'ISO-8859-1', true);?>
+            <tr>
+                <td><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['site']->value['titre'], ENT_QUOTES, 'ISO-8859-1', true);?>
 </td>
-            <td><a href="<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['site']->value['url'], ENT_QUOTES, 'ISO-8859-1', true);?>
+                <td><a href="<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['site']->value['url'], ENT_QUOTES, 'ISO-8859-1', true);?>
 " target="_blank" rel="noopener"><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['site']->value['url'], ENT_QUOTES, 'ISO-8859-1', true);?>
 </a></td>
-            <td><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['site']->value['categorie'], ENT_QUOTES, 'ISO-8859-1', true);?>
+                <td><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['site']->value['categorie'], ENT_QUOTES, 'ISO-8859-1', true);?>
 </td>
-            <td><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['site']->value['description'], ENT_QUOTES, 'ISO-8859-1', true);?>
+                <td><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['site']->value['description'], ENT_QUOTES, 'ISO-8859-1', true);?>
 </td>
-        </tr>
-    <?php
+            </tr>
+        <?php
 }
 if ($_smarty_tpl->tpl_vars['site']->do_else) {
 ?>
-        <tr>
-            <td colspan="4">Aucun résultat.</td>
-        </tr>
-    <?php
+            <tr>
+                <td colspan="4">Aucun résultat pour cette recherche.</td>
+            </tr>
+        <?php
 }
 $_smarty_tpl->smarty->ext->_foreach->restore($_smarty_tpl, 1);?>
-    </tbody>
-</table><?php }
+        </tbody>
+    </table>
+</div><?php }
 }

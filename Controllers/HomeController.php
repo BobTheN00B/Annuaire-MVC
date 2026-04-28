@@ -7,13 +7,7 @@ require_once __DIR__ . '/../Models/CategoryModel.php';
  */
 class HomeController {
 
-    private SiteModel $siteModel;
-    private CategoryModel $categoryModel;
     
-    public function __construct() {
-        $this->siteModel = new SiteModel();
-        $this->categoryModel = new CategoryModel();
-    }
 
     /**
      * Liste publique avec filtres (catégorie + mot-clé).
@@ -26,12 +20,23 @@ class HomeController {
 
         $motcle = trim((string) filter_input(INPUT_GET, 'motcle', FILTER_UNSAFE_RAW));
 
-        $sites = $this->siteModel->search($selectedCategorie, $motcle);
+        $errorMessage = null;
+        $sites = [];
+        $categories = [];
 
+        try {
+            $siteModel = new SiteModel();
+            $categoryModel = new CategoryModel();
+            $sites = $siteModel->search($selectedCategorie, $motcle);
+            $categories = $categoryModel->list()->fetchAll(PDO::FETCH_ASSOC);
+        } catch (Throwable $exception) {
+            $errorMessage = 'Le service de données est momentanément indisponible. Réessayez dans quelques instants.';
+        }
         return [
             'titre' => 'Annuaire de sites web',
             'description' => 'Recherchez des sites par catégorie ou par mot-clé.',
-            'categories' => $this->categoryModel->list(),
+            'errorMessage' => $errorMessage,
+            'categories' => $categories,
             'sites' => $sites,
             'selectedCategorie' => $selectedCategorie,
             'motcle' => $motcle,
