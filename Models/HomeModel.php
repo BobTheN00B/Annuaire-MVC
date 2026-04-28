@@ -9,7 +9,7 @@
 class AccueilModel {
     private $pdo;
     public function __construct() {
-        $this->pdo = new PDO("mysql:dbname=annuaire;host=192.168.56.10","etudiant","etudiant");
+        $this->pdo = new PDO("mysql:dbname=annuaire;host=192.168.56.10","bobthenoob","Omgimdeadlol.8112");
     }
 
 }
