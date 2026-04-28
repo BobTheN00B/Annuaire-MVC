@@ -55,6 +55,7 @@ class CategoryController {
             exit;
         } else {
             header("location: index.php?page=categorie&action=add");
+            exit;
         }
     }
 
@@ -70,7 +71,7 @@ class CategoryController {
             $id = filter_var(strip_tags(trim($_POST['id'])), FILTER_SANITIZE_STRING);
             $this->_model->update($id, $libelle);
             header("location: index.php?page=categorie&action=list");
+            exit;
         }
     }
-
 }
