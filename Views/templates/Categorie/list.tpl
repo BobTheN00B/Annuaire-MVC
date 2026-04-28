@@ -5,8 +5,8 @@
         <tbody>
 {foreach $vue.categories as $cat}
     <tr><td>{$cat.Libelle}<td>
-        <td><a class="btn btn-primary" href="index.php?page=categorie&action=update&id={$cat.id}">modification</a>
-            | <a class="btn btn-danger" href="#" onclick="sup({$cat.id});">Suppression</a>
+        <td><a class="btn btn-primary" href="index.php?page=categorie&action=update&id={$cat.Id_Categorie}">modification</a>
+            | <a class="btn btn-danger" href="#" onclick="sup({$cat.Id_Categorie});">Suppression</a>
         </td>
     </tr>
 {/foreach}

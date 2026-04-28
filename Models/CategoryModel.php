@@ -25,9 +25,8 @@ class CategoryModel extends Model {
 
     public function insert(string $unLlibelle) {
         $sth = $this->_pdo->prepare("insert into " . $this->_table .
-                " (libelle) values(:libelle)");
+                " (Libelle) values(:libelle)");
         $sth->bindParam(':libelle', $unLlibelle, PDO::PARAM_STR);
-        //  $this->_pdo->debugDumpParams();
         return $sth->execute();
     }
 
@@ -39,20 +38,25 @@ class CategoryModel extends Model {
      */
     public function update(int $unId, string $unLibelle) {
         $sth = $this->_pdo->prepare("update " . $this->_table .
-                " SET libelle=:libelle where id = :id");
+                " SET Libelle = :libelle where Id_Categorie = :id");
         $sth->bindParam(':id', $unId, PDO::PARAM_INT);
         $sth->bindParam(':libelle', $unLibelle, PDO::PARAM_STR);
-        
-      // $sth->debugDumpParams();die;
+
         return $sth->execute();
     }
 
     public function selectById(int $unId) {
         $sth = $this->_pdo->prepare("select * from " . $this->_table .
-                " where id = :id");
+                " where Id_Categorie = :id");
         $sth->bindParam(':id', $unId, PDO::PARAM_INT);
         $sth->execute();
         return $sth->fetchAll();
+    }
+
+    public function delete(int $unId): bool {
+        $sth = $this->_pdo->prepare("delete from " . $this->_table . " where Id_Categorie = :id");
+        $sth->bindParam(':id', $unId, PDO::PARAM_INT);
+        return $sth->execute();
     }
 
 }

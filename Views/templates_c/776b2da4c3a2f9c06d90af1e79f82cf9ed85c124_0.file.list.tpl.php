@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.1.0, created on 2026-04-28 12:19:10
+/* Smarty version 4.1.0, created on 2026-04-28 17:35:14
   from 'C:\Users\Andrian\Desktop\Annuaire-MVC\Views\templates\Categorie\list.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.1.0',
-  'unifunc' => 'content_69f0a5be7f2c91_96197080',
+  'unifunc' => 'content_69f0efd2cd65f1_32550187',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '776b2da4c3a2f9c06d90af1e79f82cf9ed85c124' => 
     array (
       0 => 'C:\\Users\\Andrian\\Desktop\\Annuaire-MVC\\Views\\templates\\Categorie\\list.tpl',
-      1 => 1777302940,
+      1 => 1777397708,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_69f0a5be7f2c91_96197080 (Smarty_Internal_Template $_smarty_tpl) {
+function content_69f0efd2cd65f1_32550187 (Smarty_Internal_Template $_smarty_tpl) {
 ?><h2><a class="btn btn-primary" href="index.php?page=categorie&action=add">Ajouter</a></h2>
 <p><?php echo $_smarty_tpl->tpl_vars['vue']->value['description'];?>
 <p>    
@@ -35,9 +35,9 @@ $_smarty_tpl->tpl_vars['cat']->do_else = false;
 ?>
     <tr><td><?php echo $_smarty_tpl->tpl_vars['cat']->value['Libelle'];?>
 <td>
-        <td><a class="btn btn-primary" href="index.php?page=categorie&action=update&id=<?php echo $_smarty_tpl->tpl_vars['cat']->value['id'];?>
+        <td><a class="btn btn-primary" href="index.php?page=categorie&action=update&id=<?php echo $_smarty_tpl->tpl_vars['cat']->value['Id_Categorie'];?>
 ">modification</a>
-            | <a class="btn btn-danger" href="#" onclick="sup(<?php echo $_smarty_tpl->tpl_vars['cat']->value['id'];?>
+            | <a class="btn btn-danger" href="#" onclick="sup(<?php echo $_smarty_tpl->tpl_vars['cat']->value['Id_Categorie'];?>
 );">Suppression</a>
         </td>
     </tr>
