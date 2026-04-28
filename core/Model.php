@@ -29,4 +29,29 @@ class Model {
         return $this->_pdo->query($sql);
     }
 
+    /**
+     * Suppression générique par identifiant.
+     *
+     * @param int $unId
+     * @return bool
+     */
+    public function delete(int $unId): bool {
+        return $this->deleteBy('id = :id', [
+            ':id' => $unId,
+        ]);
+    }
+
+    /**
+     * Suppression générique avec conditions.
+     *
+     * @param string $whereClause
+     * @param array $params
+     * @return bool
+     */
+    protected function deleteBy(string $whereClause, array $params): bool {
+        $sql = 'delete from ' . $this->_table . ' where ' . $whereClause;
+        $sth = $this->_pdo->prepare($sql);
+        return $sth->execute($params);
+    }
+
 }

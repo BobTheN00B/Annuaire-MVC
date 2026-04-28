@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.1.0, created on 2026-04-27 20:21:24
+/* Smarty version 4.1.0, created on 2026-04-28 06:30:00
   from 'C:\Users\Andrian\Desktop\Annuaire-MVC\Views\templates\index.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.1.0',
-  'unifunc' => 'content_69efc544891378_13189968',
+  'unifunc' => 'content_69f053e8de97c8_44086525',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '2012697327825049f0d227966eee03a0964d6db5' => 
     array (
       0 => 'C:\\Users\\Andrian\\Desktop\\Annuaire-MVC\\Views\\templates\\index.tpl',
-      1 => 1777319322,
+      1 => 1777357558,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_69efc544891378_13189968 (Smarty_Internal_Template $_smarty_tpl) {
+function content_69f053e8de97c8_44086525 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!-- Template de base avec le moteur de template Smarty -->
 <!DOCTYPE html>
 <html>
@@ -44,6 +44,7 @@ function content_69efc544891378_13189968 (Smarty_Internal_Template $_smarty_tpl)
                     <a class="nav-link" href="index.php?page=categorie&action=list">Catégories</a>
                     <?php if ($_smarty_tpl->tpl_vars['isConnected']->value) {?>
                         <a class="nav-link" href="index.php?page=site&action=list">Mes sites</a>
+                        <a class="nav-link" href="index.php?page=utilisateur&action=list">Mon compte</a>
                         <a class="nav-link" href="index.php?page=utilisateur&action=logout">Déconnexion</a>
                     <?php } else { ?>
                         <a class="nav-link" href="index.php?page=utilisateur&action=login">Connexion</a>

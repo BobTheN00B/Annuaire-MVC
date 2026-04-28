@@ -31,14 +31,6 @@ class CategoryModel extends Model {
         return $sth->execute();
     }
 
-    public function delete(int $unId) {
-        $sth = $this->_pdo->prepare("delete from " . $this->_table .
-                " where id = :id");
-        $sth->bindParam(':id', $unId, PDO::PARAM_INT);
-        //  $this->_pdo->debugDumpParams();
-        return $sth->execute();
-    }
-
     /**
      * Mise a jour de la catégorie
      * @param int $unId

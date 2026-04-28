@@ -11,8 +11,42 @@ class UserController
         $this->model = new UtilisateurModel();
     }
 
+    private function isConnected(): bool
+    {
+        return isset($_SESSION['user']['id']);
+    }
+
+    private function requireGuest(): void
+    {
+        if ($this->isConnected()) {
+            header('Location: index.php?page=utilisateur&action=list');
+            exit;
+        }
+    }
+
+    private function requireAuth(): void
+    {
+        if (!$this->isConnected()) {
+            header('Location: index.php?page=utilisateur&action=login');
+            exit;
+        }
+    }
+
+    public function list(): array
+    {
+        $this->requireAuth();
+
+        return [
+            'titre' => 'Mon compte',
+            'description' => 'Vous êtes connecté.',
+            'user' => $_SESSION['user'],
+        ];
+    }
+
     public function login(): array
     {
+        $this->requireGuest(); 
+    
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail = filter_input(INPUT_POST, 'mail', FILTER_VALIDATE_EMAIL);
             $password = (string) filter_input(INPUT_POST, 'password', FILTER_UNSAFE_RAW);
@@ -20,7 +54,7 @@ class UserController
                 $user = $this->model->verifyLogin($mail, $password);
                 if ($user !== null) {
                     $_SESSION['user'] = ['id' => $user['id'], 'mail' => $user['mail']];
-                    header('Location: index.php');
+                    header('Location: index.php?page=utilisateur&action=list');
                     exit;
                 }
             }
@@ -33,6 +67,8 @@ class UserController
 
     public function register(): array
     {
+        $this->requireGuest();
+
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $mail = filter_input(INPUT_POST, 'mail', FILTER_VALIDATE_EMAIL);
             $password = (string) filter_input(INPUT_POST, 'password', FILTER_UNSAFE_RAW);
@@ -55,4 +91,5 @@ class UserController
         header('Location: index.php');
         exit;
     }
+
 }

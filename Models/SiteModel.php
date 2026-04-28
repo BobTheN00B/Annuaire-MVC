@@ -56,9 +56,10 @@ class SiteModel extends Model
 
     public function deleteForUser(int $id, int $utilisateurId): bool
     {
-        $sql = 'DELETE FROM Sites WHERE id = :id AND id_utilisateur = :id_utilisateur';
-        $sth = $this->_pdo->prepare($sql);
-        return $sth->execute([':id' => $id, ':id_utilisateur' => $utilisateurId]);
+         return $this->deleteBy('id = :id AND id_utilisateur = :id_utilisateur', [
+            ':id' => $id,
+            ':id_utilisateur' => $utilisateurId,
+        ]);
     }
 
     public function search(?int $categorieId, ?string $keyword): array

@@ -20,22 +20,26 @@
     </div>
 </form>
 
-<table class="table table-striped">
-    <thead>
-        <tr><th>Titre</th><th>URL</th><th>Catégorie</th><th>Description</th></tr>
-    </thead>
-    <tbody>
-    {foreach $vue.sites as $site}
-        <tr>
-            <td>{$site.titre|escape}</td>
-            <td><a href="{$site.url|escape}" target="_blank" rel="noopener">{$site.url|escape}</a></td>
-            <td>{$site.categorie|escape}</td>
-            <td>{$site.description|escape}</td>
-        </tr>
-    {foreachelse}
-        <tr>
-            <td colspan="4">Aucun résultat.</td>
-        </tr>
-    {/foreach}
-    </tbody>
-</table>
+<p><strong>{$vue.resultCount}</strong> résultat(s) trouvé(s).</p>
+
+<div class="table-responsive">
+    <table class="table table-striped">
+        <thead>
+            <tr><th>Titre</th><th>URL</th><th>Catégorie</th><th>Description</th></tr>
+        </thead>
+        <tbody>
+        {foreach $vue.sites as $site}
+            <tr>
+                <td>{$site.titre|escape}</td>
+                <td><a href="{$site.url|escape}" target="_blank" rel="noopener">{$site.url|escape}</a></td>
+                <td>{$site.categorie|escape}</td>
+                <td>{$site.description|escape}</td>
+            </tr>
+        {foreachelse}
+            <tr>
+                <td colspan="4">Aucun résultat pour cette recherche.</td>
+            </tr>
+        {/foreach}
+        </tbody>
+    </table>
+</div>

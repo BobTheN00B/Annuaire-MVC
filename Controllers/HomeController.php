@@ -1,25 +1,41 @@
 <?php
+
+require_once __DIR__ . '/../Models/SiteModel.php';
+require_once __DIR__ . '/../Models/CategoryModel.php';
 /**
- * Class d'un controlleur très simple.
+ * Contrôleur de la page publique de l'annuaire.
  */
 class HomeController {
 
-    /**
-     * Rien pour le moment
-     */
+    private SiteModel $siteModel;
+    private CategoryModel $categoryModel;
+    
     public function __construct() {
-        
+        $this->siteModel = new SiteModel();
+        $this->categoryModel = new CategoryModel();
     }
 
     /**
-     * On retourne un tableau associative à la vue.
-     * @return Array
+     * Liste publique avec filtres (catégorie + mot-clé).
+     * @return array
      */
     public function list() {
-        $mvc = ["Models","Views","Controllers", "libs"];
-        return ["titre" => "Audit référencement de site web",
-            "description" => "Seo café audit votre site web, simplement et compréhensible par tous.",
-            "mvc"=>$mvc
+        $rawCategorie = filter_input(INPUT_GET, 'categorie', FILTER_SANITIZE_NUMBER_INT);
+        $selectedCategorie = (int) $rawCategorie;
+        $selectedCategorie = $selectedCategorie > 0 ? $selectedCategorie : null;
+
+        $motcle = trim((string) filter_input(INPUT_GET, 'motcle', FILTER_UNSAFE_RAW));
+
+        $sites = $this->siteModel->search($selectedCategorie, $motcle);
+
+        return [
+            'titre' => 'Annuaire de sites web',
+            'description' => 'Recherchez des sites par catégorie ou par mot-clé.',
+            'categories' => $this->categoryModel->list(),
+            'sites' => $sites,
+            'selectedCategorie' => $selectedCategorie,
+            'motcle' => $motcle,
+            'resultCount' => count($sites),
         ];
     }
 

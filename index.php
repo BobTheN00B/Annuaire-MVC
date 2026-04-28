@@ -5,6 +5,10 @@ ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 error_reporting(E_ALL);
 
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
 //todo gérer le coeur de l'appli en POO
 //Chargement du moteur de template Smarty
 require_once('libs/smarty/Smarty.class.php');
@@ -13,34 +17,32 @@ $smarty->template_dir = 'Views/templates/';
 $smarty->compile_dir = 'Views/templates_c/';
 $smarty->config_dir = 'Views/configs/';
 $smarty->cache_dir = 'Views/cache/';
+$smarty->assign('isConnected', isset($_SESSION['user']['id']));
+$smarty->assign('currentUser', $_SESSION['user'] ?? null);
 
 // Routeur (gestion des routes)
-$page = isset($_GET['page']) ? $_GET['page'] : 'Accueil';
-$pages = array('categorie' => 'CategoryController',
-    'analyse' => 'AnalyseController',
-    'Accueil' => 'HomeController',
-    '' => 'HomeController'
-);
-$action = (isset($_GET['action'])) ? $_GET['action'] : 'list';
-/**
- * Exemple d'utilisation index.php?page=categorie&action=list
- */
-if (array_key_exists($page, $pages)) {
-    require("Controllers/" . $pages[$page] . ".php");
-    $ctrl = new $pages[$page]();
-    
-    if (method_exists($ctrl, $action)) {
-        // chargement du chemin de la vue dans une variable Smarty
-        $smarty->assign('tpl', $page . '/' . $action . '.tpl');
-        // Chargement du tableau associative des controlleurs pour ma vue.
-        $smarty->assign('vue', $ctrl->{$action}());
-        $smarty->display('index.tpl');
-    } else {
+require_once __DIR__ . '/core/Route.php';
+$route = new Route();
+$page = $_GET['page'] ?? '';
+$action = $_GET['action'] ?? 'list';
+
+try {
+    $routeConfig = $route->resolve($page);
+
+    require 'Controllers/' . $routeConfig['controller'] . '.php';
+    $controllerClass = $routeConfig['controller'];
+    $ctrl = new $controllerClass();
+
+    if (!method_exists($ctrl, $action)) {
         http_response_code(404);
         //todo: 404
+        exit;
     }
-} else {
-    //todo:404
+// chargement du chemin de la vue dans une variable Smarty
+    $smarty->assign('tpl', $routeConfig['template'] . '/' . $action . '.tpl');
+    // Chargement du tableau associative des controlleurs pour ma vue.
+    $smarty->assign('vue', $ctrl->{$action}());
+    $smarty->display('index.tpl');
+} catch (RuntimeException $exception) {
     http_response_code(404);
 }
- 

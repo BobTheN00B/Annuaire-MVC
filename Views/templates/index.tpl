@@ -18,6 +18,7 @@
                     <a class="nav-link" href="index.php?page=categorie&action=list">Catégories</a>
                     {if $isConnected}
                         <a class="nav-link" href="index.php?page=site&action=list">Mes sites</a>
+                        <a class="nav-link" href="index.php?page=utilisateur&action=list">Mon compte</a>
                         <a class="nav-link" href="index.php?page=utilisateur&action=logout">Déconnexion</a>
                     {else}
                         <a class="nav-link" href="index.php?page=utilisateur&action=login">Connexion</a>
