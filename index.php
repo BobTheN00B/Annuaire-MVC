@@ -27,24 +27,16 @@ $smarty->assign('flash', $flash);
 require_once __DIR__ . '/core/Route.php';
 $route = new Route();
 $page = $_GET['page'] ?? '';
-$action = $_GET['action'] ?? 'list';
 
 try {
     $routeConfig = $route->resolve($page);
+    $action = $route->resolveAction($routeConfig, $_GET['action'] ?? null);
+    $response = $route->dispatch($routeConfig, $action);
 
-    require 'Controllers/' . $routeConfig['controller'] . '.php';
-    $controllerClass = $routeConfig['controller'];
-    $ctrl = new $controllerClass();
-
-    if (!method_exists($ctrl, $action)) {
-        http_response_code(404);
-        //todo: 404
-        exit;
-    }
-// chargement du chemin de la vue dans une variable Smarty
-    $smarty->assign('tpl', $routeConfig['template'] . '/' . $action . '.tpl');
+    // chargement du chemin de la vue dans une variable Smarty
+    $smarty->assign('tpl', $response['template']);
     // Chargement du tableau associative des controlleurs pour ma vue.
-    $smarty->assign('vue', $ctrl->{$action}());
+    $smarty->assign('vue', $response['data']);
     $smarty->display('index.tpl');
 } catch (RuntimeException $exception) {
     http_response_code(404);

@@ -14,6 +14,7 @@ class CategoryModel extends Model {
     public function __construct() {
         parent::__construct();
         $this->_table = "Categorie";
+        $this->_primaryKey = 'Id_Categorie';
     }
 
     /*
@@ -51,12 +52,6 @@ class CategoryModel extends Model {
         $sth->bindParam(':id', $unId, PDO::PARAM_INT);
         $sth->execute();
         return $sth->fetchAll();
-    }
-
-    public function delete(int $unId): bool {
-        $sth = $this->_pdo->prepare("delete from " . $this->_table . " where Id_Categorie = :id");
-        $sth->bindParam(':id', $unId, PDO::PARAM_INT);
-        return $sth->execute();
     }
 
 }

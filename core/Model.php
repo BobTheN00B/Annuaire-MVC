@@ -11,6 +11,7 @@ class Model {
 
     protected $_pdo;
     protected $_table;
+    protected string $_primaryKey = 'id';
 
     /**
      * Instancie l'attribut PDO depuis mon Singleton
@@ -36,7 +37,7 @@ class Model {
      * @return bool
      */
     public function delete(int $unId): bool {
-        return $this->deleteBy('id = :id', [
+        return $this->deleteBy($this->_primaryKey . ' = :id', [
             ':id' => $unId,
         ]);
     }
