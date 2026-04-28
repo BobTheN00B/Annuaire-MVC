@@ -30,7 +30,7 @@ class HomeController {
             $siteModel = new SiteModel();
             $categoryModel = new CategoryModel();
             $sites = $siteModel->search($selectedCategorie, $motcle);
-            $categories = $categoryModel->list()->fetchAll(PDO::FETCH_ASSOC);
+            $categories = $categoryModel->listForUi();
         } catch (Throwable $exception) {
             $errorMessage = 'Le service de données est momentanément indisponible. Réessayez dans quelques instants.';
         }

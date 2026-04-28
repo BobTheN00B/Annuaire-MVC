@@ -41,7 +41,7 @@ class SiteController
         return [
             'titre' => 'Ajouter un site',
             'description' => 'Ajout d\'un site',
-            'categories' => $this->categoryModel->list(),
+            'categories' => $this->categoryModel->listForUi(),
         ];
     }
 
@@ -71,7 +71,7 @@ class SiteController
             'titre' => 'Modifier un site',
             'description' => 'Edition',
             'site' => $this->siteModel->selectByIdForUser($id, $userId),
-            'categories' => $this->categoryModel->list(),
+            'categories' => $this->categoryModel->listForUi(),
         ];
     }
 

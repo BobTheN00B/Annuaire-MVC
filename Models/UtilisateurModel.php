@@ -13,15 +13,49 @@ require_once __DIR__ . '/../core/Model.php';
  */
 class UtilisateurModel extends Model
 {
+    private string $idColumn;
+    private string $mailColumn;
+    private string $passwordColumn;
+    private string $paramsColumn;
+
     public function __construct()
     {
         parent::__construct();
         $this->_table = 'Utilisateur';
+        $columns = $this->detectColumns();
+        $this->idColumn = $columns['id'];
+        $this->mailColumn = $columns['mail'];
+        $this->passwordColumn = $columns['password'];
+        $this->paramsColumn = $columns['params'];
+        $this->_primaryKey = $this->idColumn;
     }
 
-    public function findByMail(string $mail): ?array
+    private function detectColumns(): array
     {
-        $sth = $this->_pdo->prepare('SELECT * FROM ' . $this->_table . ' WHERE mail = :mail LIMIT 1');
+        $sth = $this->_pdo->query('SHOW COLUMNS FROM ' . $this->_table);
+        $fields = array_map(static function (array $row): string {
+            return strtolower((string) $row['Field']);
+        }, $sth->fetchAll(PDO::FETCH_ASSOC));
+
+        return [
+            'id' => in_array('id', $fields, true) ? 'id' : 'Id_Utilisateur',
+            'mail' => in_array('mail', $fields, true) ? 'mail' : 'Mail',
+            'password' => in_array('mdp', $fields, true) ? 'mdp' : 'MDP',
+            'params' => in_array('params', $fields, true) ? 'params' : 'Params',
+        ];
+    }
+
+     public function findByMail(string $mail): ?array
+    {
+        $sql = sprintf(
+            'SELECT %s AS id, %s AS mail, %s AS mdp FROM %s WHERE %s = :mail LIMIT 1',
+            $this->idColumn,
+            $this->mailColumn,
+            $this->passwordColumn,
+            $this->_table,
+            $this->mailColumn
+        );
+        $sth = $this->_pdo->prepare($sql);
         $sth->execute([':mail' => $mail]);
         $user = $sth->fetch(PDO::FETCH_ASSOC);
         return $user ?: null;
@@ -30,7 +64,14 @@ class UtilisateurModel extends Model
     public function create(string $mail, string $plainPassword): bool
     {
         $passwordHash = password_hash($plainPassword, PASSWORD_DEFAULT);
-        $sth = $this->_pdo->prepare('INSERT INTO ' . $this->_table . ' (mail, mdp, params) VALUES (:mail, :mdp, :params)');
+        $sql = sprintf(
+            'INSERT INTO %s (%s, %s, %s) VALUES (:mail, :mdp, :params)',
+            $this->_table,
+            $this->mailColumn,
+            $this->passwordColumn,
+            $this->paramsColumn
+        );
+        $sth = $this->_pdo->prepare($sql);
         return $sth->execute([
             ':mail' => $mail,
             ':mdp' => $passwordHash,
@@ -55,7 +96,8 @@ class UtilisateurModel extends Model
 
     public function updateMail(int $id, string $mail): bool
     {
-        $sth = $this->_pdo->prepare('UPDATE ' . $this->_table . ' SET mail = :mail WHERE id = :id');
+        $sql = sprintf('UPDATE %s SET %s = :mail WHERE %s = :id', $this->_table, $this->mailColumn, $this->idColumn);
+        $sth = $this->_pdo->prepare($sql);
         return $sth->execute([
             ':id' => $id,
             ':mail' => $mail,
@@ -65,7 +107,8 @@ class UtilisateurModel extends Model
     public function updatePassword(int $id, string $plainPassword): bool
     {
         $passwordHash = password_hash($plainPassword, PASSWORD_DEFAULT);
-        $sth = $this->_pdo->prepare('UPDATE ' . $this->_table . ' SET mdp = :mdp WHERE id = :id');
+        $sql = sprintf('UPDATE %s SET %s = :mdp WHERE %s = :id', $this->_table, $this->passwordColumn, $this->idColumn);
+        $sth = $this->_pdo->prepare($sql);
         return $sth->execute([
             ':id' => $id,
             ':mdp' => $passwordHash,

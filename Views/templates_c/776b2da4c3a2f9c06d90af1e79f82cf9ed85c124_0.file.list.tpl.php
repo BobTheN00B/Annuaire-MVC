@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.1.0, created on 2026-04-28 17:35:14
+/* Smarty version 4.1.0, created on 2026-04-28 19:06:09
   from 'C:\Users\Andrian\Desktop\Annuaire-MVC\Views\templates\Categorie\list.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.1.0',
-  'unifunc' => 'content_69f0efd2cd65f1_32550187',
+  'unifunc' => 'content_69f10521999852_50311419',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '776b2da4c3a2f9c06d90af1e79f82cf9ed85c124' => 
     array (
       0 => 'C:\\Users\\Andrian\\Desktop\\Annuaire-MVC\\Views\\templates\\Categorie\\list.tpl',
-      1 => 1777397708,
+      1 => 1777403104,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_69f0efd2cd65f1_32550187 (Smarty_Internal_Template $_smarty_tpl) {
+function content_69f10521999852_50311419 (Smarty_Internal_Template $_smarty_tpl) {
 ?><h2><a class="btn btn-primary" href="index.php?page=categorie&action=add">Ajouter</a></h2>
 <p><?php echo $_smarty_tpl->tpl_vars['vue']->value['description'];?>
 <p>    
@@ -33,11 +33,11 @@ $_smarty_tpl->tpl_vars['cat']->do_else = true;
 if ($_from !== null) foreach ($_from as $_smarty_tpl->tpl_vars['cat']->value) {
 $_smarty_tpl->tpl_vars['cat']->do_else = false;
 ?>
-    <tr><td><?php echo $_smarty_tpl->tpl_vars['cat']->value['Libelle'];?>
+    <tr><td><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['cat']->value['libelle'], ENT_QUOTES, 'ISO-8859-1', true);?>
 <td>
-        <td><a class="btn btn-primary" href="index.php?page=categorie&action=update&id=<?php echo $_smarty_tpl->tpl_vars['cat']->value['Id_Categorie'];?>
+        <td><a class="btn btn-primary" href="index.php?page=categorie&action=update&id=<?php echo $_smarty_tpl->tpl_vars['cat']->value['id'];?>
 ">modification</a>
-            | <a class="btn btn-danger" href="#" onclick="sup(<?php echo $_smarty_tpl->tpl_vars['cat']->value['Id_Categorie'];?>
+            | <a class="btn btn-danger" href="#" onclick="sup(<?php echo $_smarty_tpl->tpl_vars['cat']->value['id'];?>
 );">Suppression</a>
         </td>
     </tr>
