@@ -7,11 +7,7 @@ error_reporting(E_ALL);
 
 //todo gérer le coeur de l'appli en POO
 //Chargement du moteur de template Smarty
-session_start();
-
-require_once __DIR__ . '/libs/smarty/Smarty.class.php';
-require_once __DIR__ . '/core/Route.php';
-
+require_once('libs/smarty/Smarty.class.php');
 $smarty = new Smarty();
 $smarty->template_dir = 'Views/templates/';
 $smarty->compile_dir = 'Views/templates_c/';
@@ -19,28 +15,32 @@ $smarty->config_dir = 'Views/configs/';
 $smarty->cache_dir = 'Views/cache/';
 
 // Routeur (gestion des routes)
-$page = $_GET['page'] ?? 'accueil';
-$action = $_GET['action'] ?? 'list';
-
-try {
-    $route = (new Route())->resolve($page);
-    $controllerClass = $route['controller'];
-    $templateFolder = $route['template'];
-
-    require_once __DIR__ . '/Controllers/' . $controllerClass . '.php';
-    $controller = new $controllerClass();
-
-    if (!method_exists($controller, $action)) {
+$page = isset($_GET['page']) ? $_GET['page'] : 'Accueil';
+$pages = array('categorie' => 'CategoryController',
+    'analyse' => 'AnalyseController',
+    'Accueil' => 'HomeController',
+    '' => 'HomeController'
+);
+$action = (isset($_GET['action'])) ? $_GET['action'] : 'list';
+/**
+ * Exemple d'utilisation index.php?page=categorie&action=list
+ */
+if (array_key_exists($page, $pages)) {
+    require("Controllers/" . $pages[$page] . ".php");
+    $ctrl = new $pages[$page]();
+    
+    if (method_exists($ctrl, $action)) {
+        // chargement du chemin de la vue dans une variable Smarty
+        $smarty->assign('tpl', $page . '/' . $action . '.tpl');
+        // Chargement du tableau associative des controlleurs pour ma vue.
+        $smarty->assign('vue', $ctrl->{$action}());
+        $smarty->display('index.tpl');
+    } else {
         http_response_code(404);
         //todo: 404
-        throw new RuntimeException('Action introuvable');
     }
-$smarty->assign('tpl', $templateFolder . '/' . $action . '.tpl');
-    $smarty->assign('vue', $controller->{$action}());
-    $smarty->assign('isConnected', isset($_SESSION['user']));
-    $smarty->display('index.tpl');
-} catch (Throwable $e) {
-    http_response_code(http_response_code() === 200 ? 500 : http_response_code());
-    echo '<h1>Erreur</h1><p>' . htmlspecialchars($e->getMessage(), ENT_QUOTES, 'UTF-8') . '</p>';
+} else {
+    //todo:404
+    http_response_code(404);
 }
  

@@ -1,7 +1,5 @@
 <?php
 
-declare(strict_types=1);
-
 require_once __DIR__ . '/../core/Model.php';
 
 /**
@@ -11,35 +9,58 @@ require_once __DIR__ . '/../core/Model.php';
  * @version 1.0.0
  * 
  */
-class CategoryModel extends Model
-{
-    public function __construct()
-    {
+class CategoryModel extends Model {
+
+    public function __construct() {
         parent::__construct();
-        $this->_table = 'Categorie';
+        $this->_table = "Categorie";
     }
 
-    public function insert(string $unLlibelle): bool
-    {
-        $sth = $this->_pdo->prepare('INSERT INTO ' . $this->_table . ' (libelle) VALUES (:libelle)');
-        return $sth->execute([':libelle' => $unLlibelle]);
+    /*
+      avant de factoriser mon code avec l'héritage
+      public function list(){
+      $sql = "select * from ".$this->table;
+      return $this->pdo->query($sql);
+      } */
+
+    public function insert(string $unLlibelle) {
+        $sth = $this->_pdo->prepare("insert into " . $this->_table .
+                " (libelle) values(:libelle)");
+        $sth->bindParam(':libelle', $unLlibelle, PDO::PARAM_STR);
+        //  $this->_pdo->debugDumpParams();
+        return $sth->execute();
     }
 
-    public function delete(int $unId): bool
-    {
-        return $this->deleteById($unId);
+    public function delete(int $unId) {
+        $sth = $this->_pdo->prepare("delete from " . $this->_table .
+                " where id = :id");
+        $sth->bindParam(':id', $unId, PDO::PARAM_INT);
+        //  $this->_pdo->debugDumpParams();
+        return $sth->execute();
     }
 
-    public function update(int $unId, string $unLibelle): bool
-    {
-        $sth = $this->_pdo->prepare('UPDATE ' . $this->_table . ' SET libelle=:libelle WHERE id = :id');
-        return $sth->execute([':id' => $unId, ':libelle' => $unLibelle]);
+    /**
+     * Mise a jour de la catégorie
+     * @param int $unId
+     * @param string $unLibelle
+     * @return int
+     */
+    public function update(int $unId, string $unLibelle) {
+        $sth = $this->_pdo->prepare("update " . $this->_table .
+                " SET libelle=:libelle where id = :id");
+        $sth->bindParam(':id', $unId, PDO::PARAM_INT);
+        $sth->bindParam(':libelle', $unLibelle, PDO::PARAM_STR);
+        
+      // $sth->debugDumpParams();die;
+        return $sth->execute();
     }
 
-    public function selectById(int $unId): array
-    {
-        $sth = $this->_pdo->prepare('SELECT * FROM ' . $this->_table . ' WHERE id = :id');
-        $sth->execute([':id' => $unId]);
-        return $sth->fetchAll(PDO::FETCH_ASSOC);
+    public function selectById(int $unId) {
+        $sth = $this->_pdo->prepare("select * from " . $this->_table .
+                " where id = :id");
+        $sth->bindParam(':id', $unId, PDO::PARAM_INT);
+        $sth->execute();
+        return $sth->fetchAll();
     }
+
 }

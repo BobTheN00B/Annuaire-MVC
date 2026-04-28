@@ -39,7 +39,7 @@ class SiteModel extends Model
 
     public function listByUser(int $utilisateurId): array
     {
-        $sql = 'SELECT s.*, c.libelle AS categorie FROM Sites s LEFT JOIN Categorie c ON c.id = s.id_categorie WHERE s.id_utilisateur = :id_utilisateur ORDER BY s.id DESC';
+        $sql = 'SELECT s.*, c.Libelle AS categorie FROM Sites s LEFT JOIN Categorie c ON c.id = s.id_categorie WHERE s.id_utilisateur = :id_utilisateur ORDER BY s.id DESC';
         $sth = $this->_pdo->prepare($sql);
         $sth->execute([':id_utilisateur' => $utilisateurId]);
         return $sth->fetchAll(PDO::FETCH_ASSOC);
@@ -63,7 +63,7 @@ class SiteModel extends Model
 
     public function search(?int $categorieId, ?string $keyword): array
     {
-        $sql = 'SELECT s.*, c.libelle AS categorie FROM Sites s LEFT JOIN Categorie c ON c.id = s.id_categorie WHERE 1 = 1';
+        $sql = 'SELECT s.*, c.Libelle AS categorie FROM Sites s LEFT JOIN Categorie c ON c.id = s.id_categorie WHERE 1 = 1';
         $params = [];
 
         if ($categorieId !== null) {
