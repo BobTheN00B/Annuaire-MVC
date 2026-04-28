@@ -80,7 +80,7 @@ class SiteModel extends Model
         }
 
         if ($keyword !== null && $keyword !== '') {
-            $sql .= ' AND (s.titre LIKE :kw OR s.description LIKE :kw OR s.url LIKE :kw)';
+            $sql .= ' AND (s.titre LIKE :kw OR s.description LIKE :kw OR s.url LIKE :kw OR c.Libelle LIKE :kw)';
             $params[':kw'] = '%' . $keyword . '%';
         }
 

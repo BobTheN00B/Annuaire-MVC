@@ -33,3 +33,44 @@ body {
 .card {
     border: 1px solid var(--jaune);
 }
+
+.search-panel {
+    background: #fff;
+    border: 1px solid rgba(33, 33, 33, 0.15);
+    border-left: 6px solid var(--jaune);
+    border-radius: 0.5rem;
+    padding: 1rem;
+}
+
+.results-panel {
+    margin-bottom: 2rem;
+}
+
+.result-badge {
+    background: var(--jaune);
+    color: var(--noir);
+    font-size: 0.95rem;
+}
+
+.site-card {
+    background: #fff;
+    border: 1px solid rgba(33, 33, 33, 0.12);
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+}
+
+.category-badge {
+    background: var(--rouge);
+    color: #fff;
+}
+
+.site-url {
+    color: var(--noir);
+    font-weight: 600;
+    text-decoration-color: var(--jaune);
+    word-break: break-all;
+}
+
+.site-url:hover {
+    color: var(--rouge);
+}
