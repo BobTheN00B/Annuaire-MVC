@@ -19,6 +19,9 @@ $smarty->config_dir = 'Views/configs/';
 $smarty->cache_dir = 'Views/cache/';
 $smarty->assign('isConnected', isset($_SESSION['user']['id']));
 $smarty->assign('currentUser', isset($_SESSION['user']) ? $_SESSION['user'] : null);
+$flash = $_SESSION['flash'] ?? null;
+unset($_SESSION['flash']);
+$smarty->assign('flash', $flash);
 
 // Routeur (gestion des routes)
 require_once __DIR__ . '/core/Route.php';
@@ -47,4 +50,5 @@ try {
     http_response_code(404);
 
     echo 'Page introuvable';
+
 }

@@ -29,9 +29,11 @@
         </nav>
 
         <main class="container">
+            {if $flash}
+                <div class="alert alert-{$flash.type|escape}">{$flash.message|escape}</div>
+            {/if}
             <h1>{$vue["titre"]|escape}</h1>
             {include file={$tpl}}
         </main>
     </body>
 </html>
-

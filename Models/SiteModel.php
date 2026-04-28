@@ -62,6 +62,13 @@ class SiteModel extends Model
         ]);
     }
 
+    public function deleteAllForUser(int $utilisateurId): bool
+    {
+        return $this->deleteBy('id_utilisateur = :id_utilisateur', [
+            ':id_utilisateur' => $utilisateurId,
+        ]);
+    }
+
     public function search(?int $categorieId, ?string $keyword): array
     {
         $sql = 'SELECT s.*, c.Libelle AS categorie FROM Sites s LEFT JOIN Categorie c ON c.id = s.id_categorie WHERE 1 = 1';
@@ -82,4 +89,5 @@ class SiteModel extends Model
         $sth->execute($params);
         return $sth->fetchAll(PDO::FETCH_ASSOC);
     }
+
 }

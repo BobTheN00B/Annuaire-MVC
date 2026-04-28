@@ -1,18 +1,18 @@
 <?php
-/* Smarty version 4.1.0, created on 2026-04-28 06:30:00
+/* Smarty version 4.1.0, created on 2026-04-28 17:57:03
   from 'C:\Users\Andrian\Desktop\Annuaire-MVC\Views\templates\index.tpl' */
 
 /* @var Smarty_Internal_Template $_smarty_tpl */
 if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   'version' => '4.1.0',
-  'unifunc' => 'content_69f053e8de97c8_44086525',
+  'unifunc' => 'content_69f0f4ef02ed44_20925950',
   'has_nocache_code' => false,
   'file_dependency' => 
   array (
     '2012697327825049f0d227966eee03a0964d6db5' => 
     array (
       0 => 'C:\\Users\\Andrian\\Desktop\\Annuaire-MVC\\Views\\templates\\index.tpl',
-      1 => 1777357558,
+      1 => 1777398975,
       2 => 'file',
     ),
   ),
@@ -20,7 +20,7 @@ if ($_smarty_tpl->_decodeProperties($_smarty_tpl, array (
   array (
   ),
 ),false)) {
-function content_69f053e8de97c8_44086525 (Smarty_Internal_Template $_smarty_tpl) {
+function content_69f0f4ef02ed44_20925950 (Smarty_Internal_Template $_smarty_tpl) {
 ?><!-- Template de base avec le moteur de template Smarty -->
 <!DOCTYPE html>
 <html>
@@ -55,6 +55,11 @@ function content_69f053e8de97c8_44086525 (Smarty_Internal_Template $_smarty_tpl)
         </nav>
 
         <main class="container">
+            <?php if ($_smarty_tpl->tpl_vars['flash']->value) {?>
+                <div class="alert alert-<?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['flash']->value['type'], ENT_QUOTES, 'ISO-8859-1', true);?>
+"><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['flash']->value['message'], ENT_QUOTES, 'ISO-8859-1', true);?>
+</div>
+            <?php }?>
             <h1><?php echo htmlspecialchars((string)$_smarty_tpl->tpl_vars['vue']->value["titre"], ENT_QUOTES, 'ISO-8859-1', true);?>
 </h1>
             <?php ob_start();
@@ -64,7 +69,5 @@ $_smarty_tpl->_subTemplateRender($_prefixVariable1, $_smarty_tpl->cache_id, $_sm
 ?>
         </main>
     </body>
-</html>
-
-<?php }
+</html><?php }
 }

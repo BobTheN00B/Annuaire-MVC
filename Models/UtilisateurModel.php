@@ -52,4 +52,23 @@ class UtilisateurModel extends Model
 
         return null;
     }
+
+    public function updateMail(int $id, string $mail): bool
+    {
+        $sth = $this->_pdo->prepare('UPDATE ' . $this->_table . ' SET mail = :mail WHERE id = :id');
+        return $sth->execute([
+            ':id' => $id,
+            ':mail' => $mail,
+        ]);
+    }
+
+    public function updatePassword(int $id, string $plainPassword): bool
+    {
+        $passwordHash = password_hash($plainPassword, PASSWORD_DEFAULT);
+        $sth = $this->_pdo->prepare('UPDATE ' . $this->_table . ' SET mdp = :mdp WHERE id = :id');
+        return $sth->execute([
+            ':id' => $id,
+            ':mdp' => $passwordHash,
+        ]);
+    }
 }
