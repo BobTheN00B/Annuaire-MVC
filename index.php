@@ -18,7 +18,7 @@ $smarty->compile_dir = 'Views/templates_c/';
 $smarty->config_dir = 'Views/configs/';
 $smarty->cache_dir = 'Views/cache/';
 $smarty->assign('isConnected', isset($_SESSION['user']['id']));
-$smarty->assign('currentUser', $_SESSION['user'] ?? null);
+$smarty->assign('currentUser', isset($_SESSION['user']) ? $_SESSION['user'] : null);
 
 // Routeur (gestion des routes)
 require_once __DIR__ . '/core/Route.php';
