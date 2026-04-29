@@ -33,6 +33,10 @@ try {
     $action = $route->resolveAction($routeConfig, $_GET['action'] ?? null);
     $response = $route->dispatch($routeConfig, $action);
 
+    if ($response === null) {
+        exit;
+    }
+
     // chargement du chemin de la vue dans une variable Smarty
     $smarty->assign('tpl', $response['template']);
     // Chargement du tableau associative des controlleurs pour ma vue.
@@ -40,7 +44,5 @@ try {
     $smarty->display('index.tpl');
 } catch (RuntimeException $exception) {
     http_response_code(404);
-
-    echo 'Page introuvable';
-
+    echo 'Erreur : ' . $exception->getMessage(); // Ceci affichera pourquoi la route a échoué
 }

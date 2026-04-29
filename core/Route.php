@@ -29,7 +29,7 @@ class Route
     
     public function resolveAction(array $routeConfig, ?string $action): string
     {
-        $candidate = trim((string) $action);
+        $candidate = strtolower(trim((string) $action));
         if ($candidate === '') {
             return $routeConfig['defaultAction'];
         }
@@ -44,14 +44,30 @@ class Route
         $controllerClass = $routeConfig['controller'];
         $controller = new $controllerClass();
 
-        if (!method_exists($controller, $action)) {
+        $resolvedAction = $this->resolveControllerMethod($controller, $action);
+        if ($resolvedAction === null) {
             http_response_code(404);
             throw new RuntimeException('Action introuvable');
         }
 
+        $data = $controller->{$resolvedAction}();
+        if ($data === null) {
+            return null;
+        }
+
         return [
-            'template' => $routeConfig['template'] . '/' . $action . '.tpl',
-            'data' => $controller->{$action}(),
+            'template' => $routeConfig['template'] . '/' . $resolvedAction . '.tpl',
+            'data' => $data,
         ];
+    }
+    private function resolveControllerMethod(object $controller, string $action): ?string
+    {
+        foreach (get_class_methods($controller) as $method) {
+            if (strtolower($method) === $action) {
+                return $method;
+            }
+        }
+
+        return null;
     }
 }

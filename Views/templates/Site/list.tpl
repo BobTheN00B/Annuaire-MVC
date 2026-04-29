@@ -5,8 +5,8 @@
     <tbody>
     {foreach $vue.sites as $site}
         <tr>
-            <td>{$site.titre|escape}</td>
-            <td><a href="{$site.url|escape}" target="_blank">{$site.url|escape}</a></td>
+            <td>{$site.Titre|escape}</td>
+            <td><a href="{$site.URL|escape}" target="_blank">{$site.URL|escape}</a></td>
             <td>{$site.categorie|escape}</td>
             <td>
                 <a class="btn btn-primary btn-sm" href="index.php?page=site&action=edit&id={$site.id}">Modifier</a>
